@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "description": "AI-powered 2D Parking Management System with License Plate Recognition",
   "main": "server/server.js",
+  "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server/server.js",
     "client": "cd client && npm run dev",
     "build": "cd client && npm run build",
-    "start": "node server/server.js"
+    "start": "node server/server.js",
+    "seed": "node server/scripts/seedData.js",
+    "indexes": "node server/scripts/createIndexes.js",
+    "backup": "server/scripts/backup.bat"
   },
   "keywords": [
     "parking",
