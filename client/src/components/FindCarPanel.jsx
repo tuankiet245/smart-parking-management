@@ -62,6 +62,23 @@ function FindCarPanel({ slots }) {
                             <div className="success-icon"></div>
                             <h3>Đã tìm thấy xe!</h3>
 
+                            <div className="location-map">
+                                <h4>📍 Vị trí trên bản đồ:</h4>
+                                <div className="mini-map">
+                                    {slots.map(slot => (
+                                        <div
+                                            key={slot.slotId}
+                                            className={`mini-slot ${slot.slotId === result.slotId ? 'highlight' :
+                                                slot.status === 'occupied' ? 'occupied' : 'empty'
+                                                }`}
+                                            title={slot.slotId}
+                                        >
+                                            {slot.slotId === result.slotId && '★'}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
                             <div className="result-details">
                                 <div className="detail-item">
                                     <span className="icon">📍</span>
@@ -79,23 +96,6 @@ function FindCarPanel({ slots }) {
                                             {new Date(result.checkInTime).toLocaleString('vi-VN')}
                                         </span>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div className="location-map">
-                                <h4>📍 Vị trí trên bản đồ:</h4>
-                                <div className="mini-map">
-                                    {slots.map(slot => (
-                                        <div
-                                            key={slot.slotId}
-                                            className={`mini-slot ${slot.slotId === result.slotId ? 'highlight' :
-                                                slot.status === 'occupied' ? 'occupied' : 'empty'
-                                                }`}
-                                            title={slot.slotId}
-                                        >
-                                            {slot.slotId === result.slotId && '★'}
-                                        </div>
-                                    ))}
                                 </div>
                             </div>
 

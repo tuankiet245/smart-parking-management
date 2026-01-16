@@ -139,6 +139,7 @@ router.post('/confirm', async (req, res) => {
 
         // Clear slot
         slot.status = 'empty';
+        slot.isOccupied = false;
         slot.licensePlate = null;
         slot.checkInTime = null;
         await slot.save();

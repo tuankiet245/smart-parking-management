@@ -189,7 +189,7 @@ function CameraFeed({ onCheckIn }) {
                                 placeholder="VD: 59-P1 123.45"
                                 className="plate-input"
                                 disabled={isDetecting}
-                                pattern="[0-9]{2}-[A-Z][0-9]\\s[0-9]{3}\\.[0-9]{2}"
+                                pattern="[0-9]{2}[-]?[A-Z]{1,2}[0-9][\s.-]*[0-9]{3}[\s.-]*[0-9]{2}"
                                 title="Format: XX-YZ NNN.NN (VD: 59-P1 123.45)"
                             />
                         </div>

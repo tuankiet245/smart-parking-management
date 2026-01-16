@@ -8,20 +8,13 @@ const router = express.Router();
 function validateLicensePlate(plate) {
     if (!plate || typeof plate !== 'string') return false;
 
-    // Vietnamese license plate formats:
-    // - 59-P1 123.45 (with dashes and dots)
-    // - 51-B3 789.01 (letter + number combination)
-    // - 30A2456.78 (compact format)
-    // - 29-C4 234.56 (standard format)
+    const cleaned = plate.trim().toUpperCase();
 
-    const cleaned = plate.trim().toUpperCase().replace(/\s/g, '');
-
-    // Very flexible pattern for Vietnamese plates
-    // Format: 2 digits, optional dash, 1-2 letters, 1 digit, optional space/dot, 3-5 digits
+    // Flexible patterns for Vietnamese plates - ALLOW SPACES
     const patterns = [
-        /^\d{2}-?[A-Z]{1,2}\d[\s.-]?\d{3}[\s.-]?\d{2}$/,  // 59-P1 123.45, 51-B3 789.01
-        /^\d{2}[A-Z]{1,2}\d{5}$/,                          // 59P112345
-        /^\d{2}-[A-Z]{1,2}\d{5}$/                          // 59-AB12345
+        /^\d{2}[-]?[A-Z]{1,2}\d[\s.-]*\d{3}[\s.-]*\d{2}$/,  // 59-P1 123.45
+        /^\d{2}[A-Z]{1,2}\d{5,7}$/,                          // 59P112345
+        /^\d{2}[-][A-Z]{1,2}\d[\s]*\d{5}$/                   // 59-P1 12345  
     ];
 
     return patterns.some(pattern => pattern.test(cleaned));
