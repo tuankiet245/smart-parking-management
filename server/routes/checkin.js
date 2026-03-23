@@ -76,17 +76,18 @@ router.post('/', async (req, res) => {
             });
         }
 
-        // Check for unpaid history records
+        // Check for unpaid history records (only block if fee > 0)
         const unpaidHistory = await History.findOne({
             licensePlate: normalizedPlate,
             paymentStatus: 'unpaid',
-            checkOutTime: { $ne: null }
+            checkOutTime: { $ne: null },
+            fee: { $gt: 0 }
         });
 
         if (unpaidHistory) {
             return res.status(400).json({
                 success: false,
-                error: 'Xe có khoản chưa thanh toán. Vui lòng thanh toán trước khi vào bãi',
+                error: `Xe còn khoản phí chưa thanh toán: ${unpaidHistory.fee.toLocaleString('vi-VN')}đ. Vui lòng thanh toán trước khi vào bãi`,
                 fee: unpaidHistory.fee
             });
         }

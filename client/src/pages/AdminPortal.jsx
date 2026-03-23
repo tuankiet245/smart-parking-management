@@ -10,6 +10,7 @@ import FindCarPanel from '../components/FindCarPanel';
 import AttendancePanel from '../components/AttendancePanel';
 import AlertPanel from '../components/AlertPanel';
 import ReportsPanel from '../components/ReportsPanel';
+import SurveillanceCameraPanel from '../components/SurveillanceCameraPanel';
 import './AdminPortal.css';
 
 const socket = io('http://localhost:5000');
@@ -108,6 +109,12 @@ function AdminPortal() {
                     >
                         Cảnh báo
                     </button>
+                    <button
+                        className={`sidebar-btn ${activeTab === 'surveillance' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('surveillance')}
+                    >
+                        📷 Camera C3
+                    </button>
                 </nav>
 
                 <div className="sidebar-footer">
@@ -153,6 +160,17 @@ function AdminPortal() {
                     {activeTab === 'reports' && <ReportsPanel />}
 
                     {activeTab === 'alerts' && <AlertPanel socket={socket} />}
+
+                    {activeTab === 'surveillance' && (
+                        <div className="parking-view">
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                                <SurveillanceCameraPanel onSlotUpdate={fetchSlots} />
+                            </div>
+                            <div className="right-panel">
+                                <ParkingMap slots={slots} surveillanceSlot="C3" />
+                            </div>
+                        </div>
+                    )}
                 </div>
             </main>
         </div>

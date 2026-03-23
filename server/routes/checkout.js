@@ -34,11 +34,20 @@ router.post('/', async (req, res) => {
         }
 
         // Get history record - most recent uncompleted one
-        const history = await History.findOne({
+        // First try with exact slot match, then fallback without slot constraint
+        let history = await History.findOne({
             licensePlate: normalizedPlate,
             slotUsed: slot.slotId,
             checkOutTime: null
-        }).sort({ checkInTime: -1 }); // Most recent first
+        }).sort({ checkInTime: -1 });
+
+        // Fallback: find any open check-in for this plate (handles data inconsistency)
+        if (!history) {
+            history = await History.findOne({
+                licensePlate: normalizedPlate,
+                checkOutTime: null
+            }).sort({ checkInTime: -1 });
+        }
 
         if (!history) {
             return res.status(404).json({
@@ -46,6 +55,7 @@ router.post('/', async (req, res) => {
                 error: 'Không tìm thấy bản ghi check-in'
             });
         }
+
 
         // Calculate duration and fee
         const checkOutTime = new Date();

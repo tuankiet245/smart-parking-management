@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './ParkingMap.css';
 
-function ParkingMap({ slots }) {
+function ParkingMap({ slots, surveillanceSlot = 'C3' }) {
     const [highlightedSlot, setHighlightedSlot] = useState(null);
 
     // Group slots by row
@@ -44,12 +44,14 @@ function ParkingMap({ slots }) {
                                 .map(slot => (
                                     <div
                                         key={slot.slotId}
-                                        className={`parking-slot ${slot.status} ${highlightedSlot === slot.slotId ? 'highlighted' : ''
-                                            }`}
+                                        className={`parking-slot ${slot.status} ${highlightedSlot === slot.slotId ? 'highlighted' : ''} ${slot.slotId === surveillanceSlot ? 'camera-slot' : ''}`}
                                         onClick={() => setHighlightedSlot(slot.slotId)}
-                                        title={`${slot.slotId} - ${slot.status === 'empty' ? 'Trống' : slot.licensePlate}`}
+                                        title={`${slot.slotId} - ${slot.status === 'empty' ? 'Trống' : slot.licensePlate}${slot.slotId === surveillanceSlot ? ' (📷 Camera quan sát)' : ''}`}
                                     >
-                                        <div className="slot-id">{slot.slotId}</div>
+                                        <div className="slot-id">
+                                            {slot.slotId}
+                                            {slot.slotId === surveillanceSlot && <span className="cam-icon">📷</span>}
+                                        </div>
                                         {slot.status === 'occupied' && slot.licensePlate && (
                                             <div className="slot-plate">{slot.licensePlate}</div>
                                         )}

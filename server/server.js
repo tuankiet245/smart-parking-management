@@ -17,6 +17,8 @@ import usersRoutes from './routes/users.js';
 import reportsRoutes from './routes/reports.js';
 import alertsRoutes from './routes/alerts.js';
 import twoFactorRoutes from './routes/twoFactor.js';
+import surveillanceRoutes from './routes/surveillance.js';
+import remoteCustomerAuthRoutes from './routes/remoteCustomerAuth.js';
 
 // Import middleware
 import { apiLimiter, downloadLimiter } from './middleware/rateLimiter.js';
@@ -71,7 +73,9 @@ app.use('/api/attendance', attendanceRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/reports', downloadLimiter, reportsRoutes);
 app.use('/api/alerts', alertsRoutes);
+app.use('/api/surveillance', surveillanceRoutes);
 app.use('/api/2fa', twoFactorRoutes);
+app.use('/api/remote-auth', remoteCustomerAuthRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
